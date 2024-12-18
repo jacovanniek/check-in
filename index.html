@@ -221,69 +221,44 @@
         });
         
 
-//         // Form submission
-//         document.getElementById('checkinForm').addEventListener('submit', function(e) {
-//             e.preventDefault(); // Prevent the default form submission
-
-//             // // Show loading message
-//             // document.getElementById('loading').style.display = 'block';
-
-//             // Hide QR scanner and form fields
-//             document.body.style.overflow = 'hidden'; // Prevent scrolling
-//             document.getElementById("reader").style.display = "none";
-//             this.style.display = "none";
-//             document.getElementById("loading").style.display = "block"; // Show loading message
-
-//             // Hide the introductory paragraph when loading
-//             document.querySelector("p").style.display = "none"; // Hide introductory paragraph
-
-
-//             // Get form data
-//             const formData = new URLSearchParams(new FormData(this)).toString();
-
-//             // Update the URL with your web app deployment URL ***************************************
-//             const url = `https://script.google.com/macros/s/AKfycbyjfezorNIQifnY0IogLOS5HUaovXLJqjXMAn8Qlf-iQyAd4MJ8YfdxPTMA4QL8OOJnmA/exec?${formData}`;
-
-// //*********************************************************
-
-//             const formData = new FormData(event.target);
-//             const params = new URLSearchParams(formData).toString();
-//                 // Construct the URL for the Apps Script with formType=checkin
-//             const scriptURL = 'https://script.google.com/macros/s/YOUR_DEPLOYED_SCRIPT_ID/exec?formType=checkin&' + params;
-
-
-//             // Use Fetch API to send data to the Google Apps Script
-//             fetch(scriptURL)
-//                 .then(response => response.text())
-//                 .then(data => {
-//                     document.getElementById('responseMessage').innerText = 'Thank you for submitting the form!';
-//                     // document.getElementById('myForm').reset(); // Reset form fields
-//                     // document.getElementById('myForm').style.display = 'none'; // Hide form
-//                     document.getElementById('loading').style.display = 'none'; // Hide loading message
-//                     console.log('Success:', data);
-//                 })
-//                 .catch((error) => {
-//                     document.getElementById('responseMessage').innerText = 'Error submitting form: ' + error;
-//                     console.error('Submission error:', error);
-//                     document.getElementById('loading').style.display = 'none'; // Hide loading message on error
-//                 });
-//         });
 
 
         document.getElementById('checkinForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
-            const formData = new FormData(event.target);
-            const params = new URLSearchParams(formData).toString();
 
-            // Construct the URL for the Apps Script with formType=checkin
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbyjfezorNIQifnY0IogLOS5HUaovXLJqjXMAn8Qlf-iQyAd4MJ8YfdxPTMA4QL8OOJnmA/exec?formType=checkin&' + params;
+            // Hide QR scanner and form fields
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+            document.getElementById("reader").style.display = "none";
+            this.style.display = "none";
+            document.getElementById("loading").style.display = "block"; // Show loading message
 
-            // Send the request
+            // Hide the introductory paragraph when loading
+            document.querySelector("p").style.display = "none"; // Hide introductory paragraph
+
+
+            // Get all form data
+            const formData = new URLSearchParams(new FormData(this)).toString();
+
+            // Construct the script URL
+            const scriptURL = `https://script.google.com/macros/s/AKfycbwdP2fxvDrl4mIkjJTuvTPoDPUBQ-0LRClkDWUxZ5f8lFqKrK7ggpF4sr0qDlwNPerYtg/exec?formType=checkin&${formData}`;
+            console.log('Submitting URL:', scriptURL);
+
+            // Use Fetch API to send data to the Google Apps Script
             fetch(scriptURL)
-            .then(response => response.text())
-            .then(result => alert(result))
-            .catch(error => alert('Error: ' + error.message));
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('responseMessage').innerText = 'Thank you for submitting the form!';
+                    // document.getElementById('myForm').reset(); // Reset form fields
+                    // document.getElementById('myForm').style.display = 'none'; // Hide form
+                    document.getElementById('loading').style.display = 'none'; // Hide loading message
+                    console.log('Success:', data);
+                })
+                .catch((error) => {
+                    document.getElementById('responseMessage').innerText = 'Error submitting form: ' + error;
+                    console.error('Submission error:', error);
+                    document.getElementById('loading').style.display = 'none'; // Hide loading message on error
+                });
         });
 
 
